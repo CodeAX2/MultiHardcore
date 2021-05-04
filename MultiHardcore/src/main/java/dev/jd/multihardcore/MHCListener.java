@@ -1,11 +1,8 @@
 package dev.jd.multihardcore;
 
-import java.util.ArrayList;
-
 import org.bukkit.Bukkit;
 import org.bukkit.Location;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.attribute.Attribute;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
@@ -38,7 +35,7 @@ public class MHCListener implements Listener {
 
 				for (int i = 0; i < allPlayers.length; i++) {
 					Player p = allPlayers[i].getPlayer();
-					p.teleport(new Location(plugin.getWorldManager().getPurgatory(), 0, 65, 0));
+					p.teleport(new Location(Bukkit.getWorld("world"), 0, 65, 0));
 					p.getInventory().clear();
 					p.setExp(0);
 					p.setLevel(0);

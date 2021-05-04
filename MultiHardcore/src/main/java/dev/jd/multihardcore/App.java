@@ -1,8 +1,10 @@
 package dev.jd.multihardcore;
 
-import java.util.EventListener;
-
+import org.bukkit.command.Command;
+import org.bukkit.command.CommandSender;
 import org.bukkit.plugin.java.JavaPlugin;
+
+import net.md_5.bungee.api.ChatColor;
 
 public class App extends JavaPlugin {
 
@@ -15,11 +17,10 @@ public class App extends JavaPlugin {
 		eventListener = new MHCListener(this);
 		getServer().getPluginManager().registerEvents(eventListener, this);
 		worldManager = new HCWorldManager(this);
-		worldManager.loadPurgatory();
 
 	}
 
-	public HCWorldManager getWorldManager(){
+	public HCWorldManager getWorldManager() {
 		return worldManager;
 	}
 
@@ -28,6 +29,24 @@ public class App extends JavaPlugin {
 
 		getLogger().info("Goodbye!");
 
+	}
+
+	@Override
+	public boolean onCommand(CommandSender sender, Command command, String label, String[] args) {
+
+		if (label.equalsIgnoreCase("purgatory")) {
+
+			if (args.length != 1) {
+				sender.sendMessage(ChatColor.RED + "Invalid arguments! Usage: /purgatory <worldName>");
+			} else {
+				worldManager.createPurgatory(args[0]);
+				sender.sendMessage(ChatColor.GREEN + "Created purgatory world: " + args[0]);
+			}
+
+			return true;
+		}
+
+		return false;
 	}
 
 }

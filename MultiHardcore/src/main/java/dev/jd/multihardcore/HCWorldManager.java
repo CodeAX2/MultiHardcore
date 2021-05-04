@@ -11,32 +11,48 @@ public class HCWorldManager {
 
 	private App plugin;
 
-	private World purgatory;
 	private World[] mainWorlds;
 
 	public HCWorldManager(App plugin) {
 		this.plugin = plugin;
 
 		mainWorlds = new World[3];
-		mainWorlds[0] = Bukkit.getWorld("world");
-		mainWorlds[1] = Bukkit.getWorld("world_nether");
-		mainWorlds[2] = Bukkit.getWorld("world_the_end");
+
+		Random rand = new Random();
+		long seed = rand.nextLong();
+
+		WorldCreator wc = new WorldCreator("mhc_world");
+		wc.environment(World.Environment.NORMAL);
+		wc.generateStructures(true);
+		wc.seed(seed);
+		mainWorlds[0] = wc.createWorld();
+		mainWorlds[0].setDifficulty(Difficulty.HARD);
+
+		wc = new WorldCreator("mhc_world_nether");
+		wc.environment(World.Environment.NETHER);
+		wc.generateStructures(true);
+		wc.seed(seed);
+		mainWorlds[1] = wc.createWorld();
+		mainWorlds[1].setDifficulty(Difficulty.HARD);
+
+		wc = new WorldCreator("mhc_world_the_end");
+		wc.environment(World.Environment.THE_END);
+		wc.generateStructures(true);
+		wc.seed(seed);
+		mainWorlds[2] = wc.createWorld();
+		mainWorlds[2].setDifficulty(Difficulty.HARD);
 
 	}
 
-	public void loadPurgatory() {
+	public void createPurgatory(String purgatoryWorldName) {
 
-		WorldCreator wc = new WorldCreator("purgatory");
+		WorldCreator wc = new WorldCreator(purgatoryWorldName);
 		wc.environment(World.Environment.NORMAL);
 		wc.generator(new EmptyWorldGenerator());
 		wc.generateStructures(false);
-		purgatory = wc.createWorld();
+		World purgatory = wc.createWorld();
 		purgatory.setDifficulty(Difficulty.PEACEFUL);
 
-	}
-
-	public World getPurgatory() {
-		return purgatory;
 	}
 
 	public void resetMainWorlds() {
@@ -44,10 +60,12 @@ public class HCWorldManager {
 		// Create a new seed for the new world
 		Random rand = new Random();
 		long seed = rand.nextLong();
+		System.out.println(seed);
 
 		// Loop over the main worlds
 		for (int i = 0; i < mainWorlds.length; i++) {
 			// Unload the world
+			mainWorlds[i].setKeepSpawnInMemory(false);
 			Bukkit.broadcastMessage(Bukkit.unloadWorld(mainWorlds[i], false) + "");
 
 			// Delete the folder containing the world
@@ -56,6 +74,7 @@ public class HCWorldManager {
 			// Create a new world with the new seed
 			WorldCreator wc = new WorldCreator(mainWorlds[i].getName());
 			wc.environment(mainWorlds[i].getEnvironment());
+			wc.generateStructures(true);
 			wc.seed(seed);
 
 			mainWorlds[i] = wc.createWorld();
