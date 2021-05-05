@@ -1,5 +1,6 @@
 package dev.jd.multihardcore;
 
+import java.io.File;
 import java.util.Random;
 
 import org.bukkit.Bukkit;
@@ -67,27 +68,47 @@ public class MHCWorldManager {
 
 		// Loop over the main worlds
 		for (int i = 0; i < mainWorlds.length; i++) {
+			// Create a new world with the new seed
+
 			// Unload the world
 			mainWorlds[i].setKeepSpawnInMemory(false);
 			Bukkit.broadcastMessage(Bukkit.unloadWorld(mainWorlds[i], false) + "");
 
 			// Delete the folder containing the world
-			mainWorlds[i].getWorldFolder().delete();
+			final File worldFolder = new File(
+					Bukkit.getWorldContainer() + File.separator + mainWorlds[i].getName());
+			deleteDirectoryRecursively(worldFolder);
 
-			// Create a new world with the new seed
+			// Create the new world
 			WorldCreator wc = new WorldCreator(mainWorlds[i].getName());
 			wc.environment(mainWorlds[i].getEnvironment());
 			wc.generateStructures(true);
 			wc.seed(seed);
 
-			mainWorlds[i] = wc.createWorld();
+			World newWorld = wc.createWorld();
 
 			// Set the difficulty to hard
-			mainWorlds[i].setDifficulty(Difficulty.HARD);
+			newWorld.setDifficulty(Difficulty.HARD);
+			newWorld.setKeepSpawnInMemory(true);
+			newWorld.save();
+
+			// Save the new world to be accessed later
+			mainWorlds[i] = newWorld;
+
 		}
 
 		Bukkit.broadcastMessage("World done!");
 
+	}
+
+	public static void deleteDirectoryRecursively(File directory) {
+		for (File file : directory.listFiles()) {
+			if (file.isDirectory()) {
+				deleteDirectoryRecursively(file);
+			} else {
+				file.delete();
+			}
+		}
 	}
 
 	public World getOverworld() {

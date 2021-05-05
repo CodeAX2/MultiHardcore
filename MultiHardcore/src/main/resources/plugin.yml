@@ -1,6 +1,7 @@
 main: dev.jd.multihardcore.App
 name: MultiHardcore
 version: 0.1
+api-version: 1.16
 commands:
     purgatory:
         description: Creates the purgatory world
