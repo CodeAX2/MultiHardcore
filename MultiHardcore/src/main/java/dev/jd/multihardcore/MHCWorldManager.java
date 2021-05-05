@@ -6,36 +6,39 @@ import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
+import org.bukkit.configuration.file.FileConfiguration;
 
-public class HCWorldManager {
+public class MHCWorldManager {
 
 	private App plugin;
+	private FileConfiguration config;
 
 	private World[] mainWorlds;
 
-	public HCWorldManager(App plugin) {
+	public MHCWorldManager(App plugin) {
 		this.plugin = plugin;
+		config = this.plugin.getConfig();
 
 		mainWorlds = new World[3];
 
 		Random rand = new Random();
 		long seed = rand.nextLong();
 
-		WorldCreator wc = new WorldCreator("mhc_world");
+		WorldCreator wc = new WorldCreator(config.getString("mch_worlds.overworld"));
 		wc.environment(World.Environment.NORMAL);
 		wc.generateStructures(true);
 		wc.seed(seed);
 		mainWorlds[0] = wc.createWorld();
 		mainWorlds[0].setDifficulty(Difficulty.HARD);
 
-		wc = new WorldCreator("mhc_world_nether");
+		wc = new WorldCreator(config.getString("mch_worlds.nether"));
 		wc.environment(World.Environment.NETHER);
 		wc.generateStructures(true);
 		wc.seed(seed);
 		mainWorlds[1] = wc.createWorld();
 		mainWorlds[1].setDifficulty(Difficulty.HARD);
 
-		wc = new WorldCreator("mhc_world_the_end");
+		wc = new WorldCreator(config.getString("mch_worlds.end"));
 		wc.environment(World.Environment.THE_END);
 		wc.generateStructures(true);
 		wc.seed(seed);
@@ -85,6 +88,18 @@ public class HCWorldManager {
 
 		Bukkit.broadcastMessage("World done!");
 
+	}
+
+	public World getOverworld() {
+		return mainWorlds[0];
+	}
+
+	public World getNether() {
+		return mainWorlds[1];
+	}
+
+	public World getEnd() {
+		return mainWorlds[2];
 	}
 
 }
