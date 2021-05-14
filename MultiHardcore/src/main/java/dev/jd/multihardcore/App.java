@@ -4,11 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.bukkit.Bukkit;
+import org.bukkit.World.Environment;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.bukkit.scoreboard.DisplaySlot;
-import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
 
 import net.md_5.bungee.api.ChatColor;
@@ -61,7 +60,19 @@ public class App extends JavaPlugin {
 				if (p.getHealth() <= 10)
 					healthColor = ChatColor.RED.toString();
 
-				sidebar.setLine(line, ChatColor.BLUE + p.getName() + ": " + healthColor + (int) p.getHealth());
+				String nameColor = ChatColor.BLUE.toString();
+				if (p.getWorld().getEnvironment() == Environment.NETHER) {
+					nameColor = ChatColor.DARK_RED.toString();
+				} else if (p.getWorld().getEnvironment() == Environment.THE_END) {
+					nameColor = ChatColor.DARK_PURPLE.toString();
+				}
+
+				sidebar.setLine(line, nameColor + p.getName() + ": " + healthColor + (int) p.getHealth());
+				line--;
+			}
+
+			while (line > 0) {
+				sidebar.clearLine(line);
 				line--;
 			}
 

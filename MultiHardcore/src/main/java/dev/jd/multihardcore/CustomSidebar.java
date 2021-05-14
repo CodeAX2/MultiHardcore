@@ -38,6 +38,12 @@ public class CustomSidebar {
 
     }
 
+    public void clearLine(int lineNumber) {
+        Score oldScore = lines.get(lineNumber);
+        if (oldScore != null)
+            board.resetScores(oldScore.getEntry());
+    }
+
     public Scoreboard getBoard() {
         return board;
     }
