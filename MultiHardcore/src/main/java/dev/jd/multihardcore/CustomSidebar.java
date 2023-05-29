@@ -2,6 +2,7 @@ package dev.jd.multihardcore;
 
 import java.util.HashMap;
 
+import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Score;
@@ -16,7 +17,7 @@ public class CustomSidebar {
 
     public CustomSidebar(Scoreboard board, String name, String title) {
         this.board = board;
-        objective = board.registerNewObjective(name, "dummy", name);
+        objective = board.registerNewObjective(name, Criteria.DUMMY, name);
 
         lines = new HashMap<>();
 
