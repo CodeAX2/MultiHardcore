@@ -56,7 +56,7 @@ public class MHCListener implements Listener {
 							7, 100, 14);
 					p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + player.getName() +
 							" DIED!");
-					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 10, 1);
+					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3.f, 1.f);
 				}
 
 				config.set("iteration", config.getInt("iteration") + 1);
