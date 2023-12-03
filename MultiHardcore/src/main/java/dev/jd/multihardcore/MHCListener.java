@@ -2,10 +2,11 @@ package dev.jd.multihardcore;
 
 import java.util.List;
 import java.util.Random;
-
+import net.md_5.bungee.api.ChatColor;
 import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
+import org.bukkit.Sound;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.EntityType;
 import org.bukkit.entity.Player;
@@ -27,7 +28,8 @@ public class MHCListener implements Listener {
 	public void onPlayerDamage(EntityDamageEvent event) {
 
 		// Check if a player was damaged
-		if (event.getEntityType() == EntityType.PLAYER && event.getEntity() instanceof Player) {
+		if (event.getEntityType() == EntityType.PLAYER &&
+				event.getEntity() instanceof Player) {
 
 			Player player = (Player) event.getEntity();
 
@@ -49,15 +51,17 @@ public class MHCListener implements Listener {
 
 					Random rand = new Random();
 
-					p.sendTitle(mainText, subTextOptions.get(rand.nextInt(subTextOptions.size())), 7, 100, 14);
-
+					p.sendTitle(mainText,
+							subTextOptions.get(rand.nextInt(subTextOptions.size())),
+							7, 100, 14);
+					p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + player.getName() +
+							" DIED!");
+					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_IMPACT, 10, 1);
 				}
 
 				config.set("iteration", config.getInt("iteration") + 1);
 				config.set("secondsalive", 0);
-
 			}
 		}
-
 	}
 }
