@@ -52,7 +52,7 @@ public class App extends JavaPlugin {
 			sidebar.setLine(12, "   ");
 
 			int line = 11;
-			for (Player p : Bukkit.getOnlinePlayers()) {
+			for (Player p : getServer().getOnlinePlayers()) {
 
 				String healthColor = ChatColor.GREEN.toString();
 				if (p.getHealth() < 18)
