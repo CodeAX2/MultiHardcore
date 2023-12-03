@@ -39,7 +39,7 @@ public class MHCListener implements Listener {
 				// The player was killed, so reset the world
 				event.setCancelled(true);
 
-				OfflinePlayer[] allPlayers = Bukkit.getOfflinePlayers();
+				OfflinePlayer[] allPlayers = plugin.getServer().getOfflinePlayers();
 
 				for (int i = 0; i < allPlayers.length; i++) {
 					Player p = allPlayers[i].getPlayer();
