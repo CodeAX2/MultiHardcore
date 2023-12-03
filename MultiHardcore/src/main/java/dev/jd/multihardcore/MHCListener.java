@@ -43,6 +43,7 @@ public class MHCListener implements Listener {
 
 				for (int i = 0; i < allPlayers.length; i++) {
 					Player p = allPlayers[i].getPlayer();
+					if (p == null) continue;
 
 					p.setGameMode(GameMode.SPECTATOR);
 
