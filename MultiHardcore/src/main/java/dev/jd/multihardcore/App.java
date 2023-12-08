@@ -1,5 +1,8 @@
 package dev.jd.multihardcore;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,12 +22,18 @@ public class App extends JavaPlugin {
 
 	private Scoreboard sidebarBoard;
 
+	private File deathFile;
+
 	@Override
 	public void onEnable() {
 
 		config = getConfig();
-
 		loadConfig();
+
+		if (config.getBoolean("usedeathfile"))
+			openDeathFile();
+		else
+			getLogger().info("Not using death file.");
 
 		eventListener = new MHCListener(this);
 		getServer().getPluginManager().registerEvents(eventListener, this);
@@ -53,6 +62,7 @@ public class App extends JavaPlugin {
 
 			int line = 11;
 			for (Player p : getServer().getOnlinePlayers()) {
+				if (p == null) continue;
 
 				String healthColor = ChatColor.GREEN.toString();
 				if (p.getHealth() < 18)
@@ -76,7 +86,8 @@ public class App extends JavaPlugin {
 				line--;
 			}
 
-			for (Player p : Bukkit.getOnlinePlayers()) {
+			for (Player p : getServer().getOnlinePlayers()) {
+				if (p == null) continue;
 				p.setScoreboard(sidebar.getBoard());
 			}
 
@@ -96,9 +107,35 @@ public class App extends JavaPlugin {
 		config.addDefault("secondsalive", 0);
 		config.addDefault("iteration", 0);
 
+		config.addDefault("usedeathfile", false);
+		config.addDefault("deathfile", "death.txt");
+
 		config.options().copyDefaults(true);
 		saveConfig();
 
+	}
+
+	private void openDeathFile() {
+		deathFile = new File(config.getString("deathfile"));
+		try {
+			FileOutputStream fs = new FileOutputStream(deathFile, false);
+			fs.write('0');
+			fs.close();
+			getLogger().info("Successfully reset death file.");
+		} catch (IOException e) {
+			getLogger().warning("Could not operate on deathfile: " + config.getString("deathfile"));
+		}
+	}
+
+	public void writeDeathFile() {
+		try {
+			FileOutputStream fs = new FileOutputStream(deathFile, false);
+			fs.write('1');
+			fs.close();
+			getLogger().info("Successfully wrote to death file.");
+		} catch (IOException e) {
+			getLogger().warning("Could not operate on deathfile: " + config.getString("deathfile"));
+		}
 	}
 
 	@Override

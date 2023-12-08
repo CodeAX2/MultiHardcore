@@ -3,7 +3,6 @@ package dev.jd.multihardcore;
 import java.util.List;
 import java.util.Random;
 import net.md_5.bungee.api.ChatColor;
-import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -62,6 +61,8 @@ public class MHCListener implements Listener {
 
 				config.set("iteration", config.getInt("iteration") + 1);
 				config.set("secondsalive", 0);
+				if (config.getBoolean("usedeathfile"))
+					plugin.writeDeathFile();
 			}
 		}
 	}
