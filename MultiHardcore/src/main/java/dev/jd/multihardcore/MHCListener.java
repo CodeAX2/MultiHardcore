@@ -3,6 +3,8 @@ package dev.jd.multihardcore;
 import java.util.List;
 import java.util.Random;
 import net.md_5.bungee.api.ChatColor;
+
+import org.bukkit.Bukkit;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Sound;
@@ -56,6 +58,8 @@ public class MHCListener implements Listener {
 							7, 100, 14);
 					p.sendMessage("" + ChatColor.RED + ChatColor.BOLD + player.getName() +
 							" DIED!");
+					if (config.getBoolean("autoshutdown"))
+						p.sendMessage("" + ChatColor.GOLD + ChatColor.BOLD + "The server will restart in 5 seconds!");
 					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3.f, 1.f);
 				}
 
@@ -63,6 +67,14 @@ public class MHCListener implements Listener {
 				config.set("secondsalive", 0);
 				if (config.getBoolean("usedeathfile"))
 					plugin.writeDeathFile();
+
+				if (config.getBoolean("autoshutdown")) {
+					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
+						public void run() {
+							plugin.shutdownServer();
+						}
+					}, 100L);
+				}
 			}
 		}
 	}

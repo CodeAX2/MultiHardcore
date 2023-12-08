@@ -107,6 +107,8 @@ public class App extends JavaPlugin {
 		config.addDefault("secondsalive", 0);
 		config.addDefault("iteration", 0);
 
+		config.addDefault("autoshutdown", false);
+
 		config.addDefault("usedeathfile", false);
 		config.addDefault("deathfile", "death.txt");
 
@@ -136,6 +138,10 @@ public class App extends JavaPlugin {
 		} catch (IOException e) {
 			getLogger().warning("Could not operate on deathfile: " + config.getString("deathfile"));
 		}
+	}
+
+	public void shutdownServer() {
+		getServer().shutdown();
 	}
 
 	@Override
