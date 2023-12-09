@@ -44,6 +44,18 @@ public class DiscordBot {
 		}
 	}
 
+	public void sendMessageWithEmbed(String message, MessageEmbed embed) {
+		ThreadChannel threadChannel = bot.getThreadChannelById(minecraftChannelID);
+		TextChannel textChannel = bot.getTextChannelById(minecraftChannelID);
+
+		if (threadChannel != null) {
+			threadChannel.sendMessage(message).setEmbeds(embed).queue();
+		}
+		if (textChannel != null) {
+			textChannel.sendMessage(message).setEmbeds(embed).queue();
+		}
+	}
+
 	public String getRoleMention(long roleId) {
 		ThreadChannel textChannel = bot.getThreadChannelById(minecraftChannelID);
 		Role role = textChannel.getGuild().getRoleById(roleId);

@@ -73,12 +73,12 @@ public class MHCListener implements Listener {
 
 					EmbedBuilder embed = new EmbedBuilder();
 					embed.setTitle("A Player Has Died!");
-					embed.setDescription(mention + " " + player.getName() + " has died!");
+					embed.setDescription(player.getName() + " has died!");
 					embed.setColor(new Color(168, 14, 14));
 					embed.setThumbnail("https://static.wikia.nocookie.net/minecraft_gamepedia/images/4/4a/Skeleton_Skull_%288%29.png");
 					embed.setTimestamp(Instant.now());
 
-					plugin.getDiscordBot().sendEmbed(embed.build());
+					plugin.getDiscordBot().sendMessageWithEmbed(mention, embed.build());
 				}
 
 				// Set values in the config
