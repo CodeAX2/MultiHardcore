@@ -6,3 +6,4 @@ commands:
     purgatory:
         description: Creates the purgatory world
         usage: /<command> <worldName> 
+depend: JDA
