@@ -9,18 +9,19 @@ public class DiscordBot {
 	private JDA bot;
 	private String minecraftChannelID;
 
-	public DiscordBot(String token, String minecraftChannelID) {
+	public DiscordBot(String token, String minecraftChannelID) 
+		throws InterruptedException {
 		this.token = token;
 		this.minecraftChannelID = minecraftChannelID;
 		bot = JDABuilder.createDefault(token).build();
+		bot.awaitReady();
 	}
 
 	public void sendMessage(String message) {
-        ThreadChannel textChannel = bot.getThreadChannelById(minecraftChannelID);
-        if (textChannel != null) {
-            textChannel.sendMessage(message).queue();
-        }
-    }
-
+		ThreadChannel textChannel = bot.getThreadChannelById(minecraftChannelID);
+		if (textChannel != null) {
+			textChannel.sendMessage(message).queue();
+		}
+	}
 
 }

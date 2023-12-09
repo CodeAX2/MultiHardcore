@@ -40,8 +40,8 @@ public class MHCListener implements Listener {
 				// The player was killed, so reset the world
 				event.setCancelled(true);
 
+				// Set all players to spectator and send message
 				OfflinePlayer[] allPlayers = plugin.getServer().getOfflinePlayers();
-
 				for (int i = 0; i < allPlayers.length; i++) {
 					Player p = allPlayers[i].getPlayer();
 					if (p == null) continue;
@@ -63,11 +63,19 @@ public class MHCListener implements Listener {
 					p.playSound(p.getLocation(), Sound.ENTITY_LIGHTNING_BOLT_THUNDER, 3.f, 1.f);
 				}
 
+				if (plugin.discordBotOnline()) {
+					plugin.getDiscordBot().sendMessage("@jacobhofer " + player.getName() + " has died!");
+				}
+
+				// Set values in the config
 				config.set("iteration", config.getInt("iteration") + 1);
 				config.set("secondsalive", 0);
+
+				// Write to the death file
 				if (config.getBoolean("usedeathfile"))
 					plugin.writeDeathFile();
 
+				// Shutdown the server
 				if (config.getBoolean("autoshutdown")) {
 					Bukkit.getScheduler().runTaskLater(plugin, new Runnable() {
 						public void run() {

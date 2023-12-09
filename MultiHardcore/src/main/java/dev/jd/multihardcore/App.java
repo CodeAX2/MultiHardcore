@@ -37,8 +37,15 @@ public class App extends JavaPlugin {
 		else
 			getLogger().info("Not using death file.");
 
-		bot = new DiscordBot("TOKEN HERE", "1048378379298156646");
-		bot.sendMessage("I am here now!");
+		getLogger().info("Creating discord bot.");
+		try {
+			bot = new DiscordBot("TOKEN HERE", "1048378379298156646");
+			bot.sendMessage("Hello from Minecraft!");
+			getLogger().info("Successfully created discord bot.");
+		} catch (InterruptedException e) {
+			getLogger().warning("Could not create discord bot.");
+			bot = null;
+		}
 
 		eventListener = new MHCListener(this);
 		getServer().getPluginManager().registerEvents(eventListener, this);
@@ -147,6 +154,14 @@ public class App extends JavaPlugin {
 
 	public void shutdownServer() {
 		getServer().shutdown();
+	}
+
+	public boolean discordBotOnline() {
+		return bot != null;
+	}
+
+	public DiscordBot getDiscordBot() {
+		return bot;
 	}
 
 	@Override
