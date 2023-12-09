@@ -64,7 +64,8 @@ public class MHCListener implements Listener {
 				}
 
 				if (plugin.discordBotOnline()) {
-					String mention = plugin.getDiscordBot().getServerMember(198882318994112512L).getAsMention();
+					long roleID = plugin.getConfig().getLong("discord.mentionRoleID");
+					String mention = plugin.getDiscordBot().getRoleMention(roleID);
 					plugin.getDiscordBot().sendMessage(mention + " " + player.getName() + " has died!");
 				}
 

@@ -37,14 +37,19 @@ public class App extends JavaPlugin {
 		else
 			getLogger().info("Not using death file.");
 
-		getLogger().info("Creating discord bot.");
-		try {
-			bot = new DiscordBot("TOKEN HERE", "1048378379298156646");
-			bot.sendMessage("Hello from Minecraft!");
-			getLogger().info("Successfully created discord bot.");
-		} catch (InterruptedException e) {
-			getLogger().warning("Could not create discord bot.");
-			bot = null;
+		if (!config.getString("discord.token").equals("0")) {
+			getLogger().info("Creating discord bot.");
+			try {
+				bot = new DiscordBot(
+					config.getString("discord.token"), 
+					config.getLong("discord.channelID")
+				);
+				bot.sendMessage("Hello from Minecraft!");
+				getLogger().info("Successfully created discord bot.");
+			} catch (InterruptedException e) {
+				getLogger().warning("Could not create discord bot.");
+				bot = null;
+			}
 		}
 
 		eventListener = new MHCListener(this);
@@ -123,6 +128,10 @@ public class App extends JavaPlugin {
 
 		config.addDefault("usedeathfile", false);
 		config.addDefault("deathfile", "death.txt");
+
+		config.addDefault("discord.token", "0");
+		config.addDefault("discord.channelID", 0L);
+		config.addDefault("discord.mentionRoleID", 0L);
 
 		config.options().copyDefaults(true);
 		saveConfig();
