@@ -24,6 +24,8 @@ public class App extends JavaPlugin {
 
 	private File deathFile;
 
+	private DiscordBot bot;
+
 	@Override
 	public void onEnable() {
 
@@ -34,6 +36,9 @@ public class App extends JavaPlugin {
 			openDeathFile();
 		else
 			getLogger().info("Not using death file.");
+
+		bot = new DiscordBot("TOKEN HERE", "1048378379298156646");
+		bot.sendMessage("I am here now!");
 
 		eventListener = new MHCListener(this);
 		getServer().getPluginManager().registerEvents(eventListener, this);
