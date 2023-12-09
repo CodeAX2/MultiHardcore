@@ -44,7 +44,6 @@ public class App extends JavaPlugin {
 					config.getString("discord.token"), 
 					config.getLong("discord.channelID")
 				);
-				bot.sendMessage("Hello from Minecraft!");
 				getLogger().info("Successfully created discord bot.");
 			} catch (InterruptedException e) {
 				getLogger().warning("Could not create discord bot.");
