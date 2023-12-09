@@ -5,5 +5,4 @@ api-version: 1.16
 commands:
     purgatory:
         description: Creates the purgatory world
-        usage: /<command> <worldName> 
-depend: JDA
+        usage: /<command> <worldName>
