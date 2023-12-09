@@ -2,6 +2,7 @@ package dev.jd.multihardcore;
 
 import net.dv8tion.jda.api.JDA;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.entities.MessageEmbed;
 import net.dv8tion.jda.api.entities.Role;
 import net.dv8tion.jda.api.entities.channel.concrete.TextChannel;
 import net.dv8tion.jda.api.entities.channel.concrete.ThreadChannel;
@@ -28,6 +29,18 @@ public class DiscordBot {
 		}
 		if (textChannel != null) {
 			textChannel.sendMessage(message).queue();
+		}
+	}
+
+	public void sendEmbed(MessageEmbed embed) {
+		ThreadChannel threadChannel = bot.getThreadChannelById(minecraftChannelID);
+		TextChannel textChannel = bot.getTextChannelById(minecraftChannelID);
+
+		if (threadChannel != null) {
+			threadChannel.sendMessageEmbeds(embed).queue();
+		}
+		if (textChannel != null) {
+			textChannel.sendMessageEmbeds(embed).queue();
 		}
 	}
 
