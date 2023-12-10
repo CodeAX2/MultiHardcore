@@ -1,6 +1,7 @@
 package dev.jd.multihardcore;
 
 import java.util.HashMap;
+import java.util.Set;
 
 import org.bukkit.scoreboard.Criteria;
 import org.bukkit.scoreboard.DisplaySlot;
@@ -28,11 +29,14 @@ public class CustomSidebar {
     public void setLine(int lineNumber, String newText) {
 
         Score oldScore = lines.get(lineNumber);
-        if (oldScore != null)
+        if (oldScore != null) {
+            if (oldScore.getEntry().equals(newText)) return;
             board.resetScores(oldScore.getEntry());
+        }
 
         Score newScore = objective.getScore(newText);
         // Remove this score from any existing line
+
         for (Integer line : lines.keySet()) {
             if (lines.get(line).getEntry().equals(newText)) {
                 lines.remove(line);
