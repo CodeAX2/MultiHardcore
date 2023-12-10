@@ -34,7 +34,7 @@ public class CustomSidebar {
         Score newScore = objective.getScore(newText);
         // Remove this score from any existing line
         for (Integer line : lines.keySet()) {
-            if (lines.get(line).equals(newScore)) {
+            if (lines.get(line).getEntry().equals(newText)) {
                 lines.remove(line);
             }
         }
