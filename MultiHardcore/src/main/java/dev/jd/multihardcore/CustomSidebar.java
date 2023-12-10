@@ -30,18 +30,14 @@ public class CustomSidebar {
 
         Score oldScore = lines.get(lineNumber);
         if (oldScore != null) {
-            if (oldScore.getEntry().equals(newText)) return;
+            //if (oldScore.getEntry().equals(newText)) return;
             board.resetScores(oldScore.getEntry());
         }
 
         Score newScore = objective.getScore(newText);
         // Remove this score from any existing line
+        lines.entrySet().removeIf(lineEntry -> newText.equals(lineEntry.getValue().getEntry()));
 
-        for (Integer line : lines.keySet()) {
-            if (lines.get(line).getEntry().equals(newText)) {
-                lines.remove(line);
-            }
-        }
         newScore.setScore(lineNumber);
         lines.put(lineNumber, newScore);
 
