@@ -30,7 +30,6 @@ public class CustomSidebar {
 
         Score oldScore = lines.get(lineNumber);
         if (oldScore != null) {
-            //if (oldScore.getEntry().equals(newText)) return;
             board.resetScores(oldScore.getEntry());
         }
 
