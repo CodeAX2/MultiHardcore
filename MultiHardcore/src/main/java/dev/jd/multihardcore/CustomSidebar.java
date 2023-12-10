@@ -32,6 +32,12 @@ public class CustomSidebar {
             board.resetScores(oldScore.getEntry());
 
         Score newScore = objective.getScore(newText);
+        // Remove this score from any existing line
+        for (Integer line : lines.keySet()) {
+            if (lines.get(line).equals(newScore)) {
+                lines.remove(line);
+            }
+        }
         newScore.setScore(lineNumber);
         lines.put(lineNumber, newScore);
 
@@ -41,8 +47,11 @@ public class CustomSidebar {
 
     public void clearLine(int lineNumber) {
         Score oldScore = lines.get(lineNumber);
-        if (oldScore != null)
+        if (oldScore != null) {
             board.resetScores(oldScore.getEntry());
+            // Remove from line cache
+            lines.remove(lineNumber);
+        }
     }
 
     public Scoreboard getBoard() {
