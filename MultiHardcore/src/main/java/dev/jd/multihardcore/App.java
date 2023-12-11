@@ -68,11 +68,12 @@ public class App extends JavaPlugin {
 		Bukkit.getScheduler().scheduleSyncRepeatingTask(this, () -> {
 
 			long secondsAlive = config.getLong("secondsalive");
-			int aliveH = (int) (secondsAlive / (60 * 60));
-			int aliveM = (int) (secondsAlive - aliveH * 60 * 60) / 60;
-			int aliveS = (int) (secondsAlive - aliveH * 60 * 60 - aliveM * 60);
+			int aliveD = (int) (secondsAlive / (60 * 60 * 24));
+			int aliveH = (int) ((secondsAlive - aliveD * 60 * 60 * 24) / (60 * 60));
+			int aliveM = (int) (secondsAlive - aliveD * 60 * 60 * 24 - aliveH * 60 * 60) / 60;
+			int aliveS = (int) (secondsAlive - aliveD * 60 * 60 * 24 - aliveH * 60 * 60 - aliveM * 60);
 			sidebar.setLine(14,
-					ChatColor.GREEN + "Alive: " + ChatColor.GOLD + aliveH + "h" + aliveM + "m" + aliveS + "s");
+					ChatColor.GREEN + "Alive: " + ChatColor.GOLD + aliveD + "d" + aliveH + "h" + aliveM + "m" + aliveS + "s");
 			sidebar.setLine(13, ChatColor.GREEN + "Iteration: " + ChatColor.GOLD + config.getInt("iteration"));
 			sidebar.setLine(12, "   ");
 
